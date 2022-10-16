@@ -13,4 +13,7 @@
 }
 .field{
     border: 1px solid black;
+    font-size: 150px;
+    text-align: center;
+    line-height: 150px;
 }
