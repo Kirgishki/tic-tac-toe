@@ -2,3 +2,15 @@
     margin: 0px;
     padding: 0px;
 }
+#gameTable{
+    background-color: grey;
+    display: grid;
+    width: 500px;
+    height: 500px;
+    margin: 50px auto;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+}
+.field{
+    border: 1px solid black;
+}
