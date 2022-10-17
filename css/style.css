@@ -1,6 +1,12 @@
+@font-face {
+    font-family: "SprayLetters";
+    src: url(../fonts/Spray_Letters.ttf);
+}
+
 *{
     margin: 0px;
     padding: 0px;
+    font-family: "SprayLetters";
 }
 #gameTable{
     background-color: grey;
@@ -12,8 +18,9 @@
     grid-template-columns: repeat(3, 1fr);
 }
 .field{
-    border: 1px solid black;
-    font-size: 150px;
+    border: 1px solid rgb(255, 255, 255);
+    font-size: 140px;
     text-align: center;
     line-height: 150px;
+    cursor: pointer;
 }
