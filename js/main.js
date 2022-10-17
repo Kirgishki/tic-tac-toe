@@ -1,7 +1,7 @@
 const Gameboard = (() => {
     const gameboard = ["","","",
-                        "","","",
-                        "","",""];
+                       "","","",
+                       "","",""];
     
     const guiGameboard = document.getElementById("gameTable");
     const gameboardFields = Array.from(guiGameboard.children);
@@ -13,10 +13,27 @@ const Gameboard = (() => {
         });
     }
     
+    function checkFields (first,second,third) { 
+        return first === second && first === third && first !== "";
+    }
 
+    const isThereWinner = () => {
+        if(checkFields(gameboard[0], gameboard[1], gameboard[2]) ||
+           checkFields(gameboard[3], gameboard[4], gameboard[5]) ||
+           checkFields(gameboard[6], gameboard[7], gameboard[8]) ||
+           checkFields(gameboard[0], gameboard[4], gameboard[8]) ||
+           checkFields(gameboard[2], gameboard[4], gameboard[6]) ||
+           checkFields(gameboard[0], gameboard[3], gameboard[6]) ||
+           checkFields(gameboard[1], gameboard[4], gameboard[7]) ||
+           checkFields(gameboard[2], gameboard[5], gameboard[8])){
+            console.log("true");
+            return true;
+        }else{
+            return false;
+        }
+    };
 
-    return { gameboardFields, render, gameboard};
-
+    return { gameboardFields, render, gameboard, isThereWinner};
 })();
 
 const Player = (name, sign) => {
@@ -32,15 +49,18 @@ const Game = (() => {
 
     var playerTurn = player1;
 
-    Gameboard.gameboardFields.forEach(field => field.addEventListener('click', function(){
+    Gameboard.gameboardFields.forEach(field => 
+        field.addEventListener('click', function(){
+
         let i = field.getAttribute("data-field-id");
 
         if(Gameboard.gameboard[i] != ""){
             return;
         }
+
         Gameboard.gameboard[i] = playerTurn.playerSign;
         Gameboard.render();
-
+        Gameboard.isThereWinner();
         playerTurn == player1 ? playerTurn = player2 : playerTurn = player1;
     }));
 })();
