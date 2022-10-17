@@ -45,33 +45,47 @@ const Player = (name, sign) => {
     var name = name || "Player";
     var playerSign = sign;
 
-    return {name, playerSign};
+    const play = (clickedField) => {
+        let i = clickedField.getAttribute("data-field-id");
+        //Check if field is already marked to prevent marking again
+        if(Gameboard.gameboard[i] != ""){ 
+            return;
+        }
+        Gameboard.gameboard[i] = playerSign;
+        Gameboard.render();
+    };
+
+    return {name, playerSign, play};
 };
 
 const Game = (() => {
     const player1 = Player("Player 1", "X");
     const player2 = Player("Player 2", "O");
-
     var playerTurn = player1;
+
+    gameFlow = () => {
+        let gameStatus = Gameboard.isThereWinner();
+
+        if(gameStatus == 1)
+        {
+            Gameboard.resetTable();
+            console.log(playerTurn.name + " is a winner");
+        }
+        else if(gameStatus == 0)
+        {
+            console.log("Draw");
+        }
+
+        playerTurn == player1 ? playerTurn = player2 : playerTurn = player1;
+    };
 
     Gameboard.gameboardFields.forEach(field => 
         field.addEventListener('click', function(){
-
-        let i = field.getAttribute("data-field-id");
-
-        if(Gameboard.gameboard[i] != ""){
-            return;
-        }
-
-        Gameboard.gameboard[i] = playerTurn.playerSign;
-        Gameboard.render();
-        if(Gameboard.isThereWinner() == 1){
-            Gameboard.resetTable();
-        }else if(Gameboard.isThereWinner() == 0){
-            console.log("Draw");
-        }
-        playerTurn == player1 ? playerTurn = player2 : playerTurn = player1;
-    }));
+            playerTurn.play(this);
+            gameFlow();
+        })
+    );
+    
 })();
 
 
