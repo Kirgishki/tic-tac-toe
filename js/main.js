@@ -1,5 +1,5 @@
 const Gameboard = (() => {
-    var gameboard = ["","","",
+    const gameboard = ["","","",
                        "","","",
                        "","",""];
     
@@ -18,9 +18,7 @@ const Gameboard = (() => {
     }
 
     const resetTable = () => {
-        gameboard = ["","","",
-                     "","","",
-                     "","",""];
+        gameboard.forEach( (field , i) => gameboard[i] = "");
         render();
     };
 
@@ -33,7 +31,6 @@ const Gameboard = (() => {
            checkFields(gameboard[0], gameboard[3], gameboard[6]) ||
            checkFields(gameboard[1], gameboard[4], gameboard[7]) ||
            checkFields(gameboard[2], gameboard[5], gameboard[8])){
-            console.log("true");
             return true;
         }else{
             return false;
