@@ -1,5 +1,5 @@
 const Gameboard = (() => {
-    const gameboard = ["","","",
+    var gameboard = ["","","",
                        "","","",
                        "","",""];
     
@@ -11,11 +11,18 @@ const Gameboard = (() => {
             let i = element.getAttribute("data-field-id");
             element.textContent = gameboard[i];
         });
-    }
+    };
     
     function checkFields (first,second,third) { 
         return first === second && first === third && first !== "";
     }
+
+    const resetTable = () => {
+        gameboard = ["","","",
+                     "","","",
+                     "","",""];
+        render();
+    };
 
     const isThereWinner = () => {
         if(checkFields(gameboard[0], gameboard[1], gameboard[2]) ||
@@ -33,7 +40,7 @@ const Gameboard = (() => {
         }
     };
 
-    return { gameboardFields, render, gameboard, isThereWinner};
+    return { gameboardFields, render, gameboard, isThereWinner, resetTable};
 })();
 
 const Player = (name, sign) => {
@@ -60,7 +67,9 @@ const Game = (() => {
 
         Gameboard.gameboard[i] = playerTurn.playerSign;
         Gameboard.render();
-        Gameboard.isThereWinner();
+        if(Gameboard.isThereWinner()){
+            Gameboard.resetTable();
+        }
         playerTurn == player1 ? playerTurn = player2 : playerTurn = player1;
     }));
 })();
