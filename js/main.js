@@ -2,7 +2,6 @@ const Gameboard = (() => {
     const gameboard = ["","","",
                        "","","",
                        "","",""];
-    
     const guiGameboard = document.getElementById("gameTable");
     const gameboardFields = Array.from(guiGameboard.children);
 
@@ -31,9 +30,11 @@ const Gameboard = (() => {
            checkFields(gameboard[0], gameboard[3], gameboard[6]) ||
            checkFields(gameboard[1], gameboard[4], gameboard[7]) ||
            checkFields(gameboard[2], gameboard[5], gameboard[8])){
-            return true;
+            return 1;
+        }else if(!gameboard.includes("")){
+            return 0;
         }else{
-            return false;
+            return -1;
         }
     };
 
@@ -64,8 +65,10 @@ const Game = (() => {
 
         Gameboard.gameboard[i] = playerTurn.playerSign;
         Gameboard.render();
-        if(Gameboard.isThereWinner()){
+        if(Gameboard.isThereWinner() == 1){
             Gameboard.resetTable();
+        }else if(Gameboard.isThereWinner() == 0){
+            console.log("Draw");
         }
         playerTurn == player1 ? playerTurn = player2 : playerTurn = player1;
     }));
