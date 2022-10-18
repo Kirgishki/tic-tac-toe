@@ -45,6 +45,10 @@ const Player = (name, sign) => {
     var name = name || "Player";
     var playerSign = sign;
 
+   
+
+    
+
     const play = (clickedField) => {
         let i = clickedField.getAttribute("data-field-id");
         //Check if field is already marked to prevent marking again
@@ -61,19 +65,46 @@ const Player = (name, sign) => {
 const Game = (() => {
     const player1 = Player("Player 1", "X");
     const player2 = Player("Player 2", "O");
+    const winnerText = document.getElementById("winnerText");
     var playerTurn = player1;
+
+    document.querySelector("#playerOneName").addEventListener('blur', function () { 
+        player1.name = this.value;
+    });
+    document.querySelector("#playerTwoName").addEventListener('blur', function () { 
+        player2.name = this.value;
+    });
+
+    const winner = (isDraw = false) => {
+        if(isDraw){
+            winnerText.textContent = "DRAW!";
+        }else{
+            winnerText.textContent = playerTurn.name + " is a WINNER!!!";
+        }
+        winnerText.classList.remove("d-none");
+        Gameboard.gameboardFields.forEach(field => 
+            field.classList.add("pointer-event-none")
+        );
+        setTimeout(() => {
+            Gameboard.resetTable();
+            winnerText.classList.add("d-none");
+            Gameboard.gameboardFields.forEach(field => 
+                field.classList.remove("pointer-event-none")
+            );
+        }, 2000);
+    }
+    
 
     gameFlow = () => {
         let gameStatus = Gameboard.isThereWinner();
 
         if(gameStatus == 1)
         {
-            Gameboard.resetTable();
-            console.log(playerTurn.name + " is a winner");
+            winner();
         }
         else if(gameStatus == 0)
         {
-            console.log("Draw");
+            winner(true);
         }
 
         playerTurn == player1 ? playerTurn = player2 : playerTurn = player1;
@@ -85,7 +116,7 @@ const Game = (() => {
             gameFlow();
         })
     );
-    
+
 })();
 
 
